@@ -1,21 +1,28 @@
 
 import os
-
 import discord 
-import discord.ext import commands
+from discord.ext import commands
 
 import ollama
-import dotenv import load_dotenv
+from dotenv import load_dotenv
 
 load_dotenv()
 
-intents = discord.intents.default()
+intents = discord.Intents.default()
 intents.messages = True   # This will allow us to send and recieve messages.
 
-response = ollama.chat(model='llama3', messages=[
-  {
-    'role': 'user',
-    'content': 'Why is the sky blue?',
-  },
-])
-print(response['message']['content'])
+bot = commands.Bot(command_prefix="/", intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f"Bot is ready as {bot.user.name}")
+
+bot.run(os.getenv('DISCORD_BOT_TOKEN'))
+
+# response = ollama.chat(model='llama3', messages=[
+#   {
+#     'role': 'user',
+#     'content': 'Why is the sky blue?',
+#   },
+# ])
+# print(response['message']['content'])
